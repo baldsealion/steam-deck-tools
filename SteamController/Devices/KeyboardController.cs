@@ -20,18 +20,6 @@ namespace SteamController.Devices
         {
         }
 
-        public bool this[ProfilesSettings.VirtualKeyCode key]
-        {
-            get { return this[(VirtualKeyCode)key]; }
-            set { this[(VirtualKeyCode)key] = value; }
-        }
-
-        public bool this[System.Windows.Input.Key key]
-        {
-            get { return this[(VirtualKeyCode)System.Windows.Input.KeyInterop.VirtualKeyFromKey(key)]; }
-            set { this[(VirtualKeyCode)System.Windows.Input.KeyInterop.VirtualKeyFromKey(key)] = value; }
-        }
-
         public bool this[System.Windows.Forms.Keys key]
         {
             get
@@ -124,6 +112,14 @@ namespace SteamController.Devices
                 Safe(() => simulator.Keyboard.KeyPress(keyPress.Key));
                 keyCodes[keyPress.Key] = DateTime.Now.Add(NextRepeats);
             }
+        }
+
+        public void Overwrite(VirtualKeyCode key, bool value)
+        {
+            if (value)
+                this[key] = true;
+            else
+                keyCodes.Remove(key);
         }
 
         public void KeyPress(params VirtualKeyCode[] keyCodes)

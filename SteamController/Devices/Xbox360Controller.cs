@@ -225,9 +225,10 @@ namespace SteamController.Devices
             }
         }
 
-        public void Set(Xbox360Button button, bool value, int minPresTimeMs = 0)
+        public void Overwrite(Xbox360Button button, bool value, int minPresTimeMs = 0)
         {
-            this[button] = value;
+            device?.SetButtonState(button, value);
+            submitReport = true;
 
             if (value && minPresTimeMs > 0)
             {
